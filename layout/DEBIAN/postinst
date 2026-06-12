@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -x /var/jb/usr/bin/sbreload ]; then
+    /var/jb/usr/bin/sbreload
+else
+    killall -9 SpringBoard
+fi

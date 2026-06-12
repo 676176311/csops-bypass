@@ -1,0 +1,9 @@
+Package: com.patch.csopsbypass
+Name: CSOps Bypass
+Version: 1.0.0
+Architecture: iphoneos-arm64
+Description: Bypass jailbreak detection — hooks csops() to strip get-task-allow and debugged flags from code signing status
+Maintainer: patch
+Author: patch
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000) | ellekit
