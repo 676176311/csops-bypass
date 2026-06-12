@@ -8,22 +8,28 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
-    env:
-      THEOS: ~/theos
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Theos & SDK
+      - name: Install build tools
+        run: |
+          brew install dpkg fakeroot ldid
+
+      - name: Setup Theos & iOS SDK
         run: |
           git clone --recursive https://github.com/theos/theos.git ~/theos
-          # Download iOS SDKs so Theos can find them
-          curl -fsSL -o /tmp/sdks.tar.gz https://github.com/theos/sdks/archive/refs/heads/master.tar.gz
+          # Download iOS SDKs (Theos expects them in ~/theos/sdks/)
+          curl -fsSL -o /tmp/sdks.tar.gz \
+            https://github.com/theos/sdks/archive/refs/heads/master.tar.gz
           mkdir -p ~/theos/sdks
           tar -xzf /tmp/sdks.tar.gz --strip-components=1 -C ~/theos/sdks
+          ls ~/theos/sdks/
 
       - name: Build package
         run: |
+          export THEOS=~/theos
+          export PATH="$THEOS/bin:$PATH"
           make package FINALPACKAGE=1
 
       - name: Upload artifact
