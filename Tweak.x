@@ -87,3 +87,8 @@ static void CSOpsBypass_init(void) {
                        (void **)&orig_csops_audittoken);
     }
 }
+#import <substrate.h>
+#import <dlfcn.h>
+#import <stdint.h>
+#import <sys/types.h>
+#import <mach/message.h>
