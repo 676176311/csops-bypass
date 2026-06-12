@@ -8,23 +8,22 @@ on:
 
 jobs:
   build:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Install build tools
         run: |
-          brew install dpkg fakeroot ldid
+          sudo apt-get update
+          sudo apt-get install -y build-essential fakeroot dpkg-dev libxml2-dev libssl-dev libplist-utils ldid
 
       - name: Setup Theos & iOS SDK
         run: |
           git clone --recursive https://github.com/theos/theos.git ~/theos
-          # Download iOS SDKs (Theos expects them in ~/theos/sdks/)
           curl -fsSL -o /tmp/sdks.tar.gz \
             https://github.com/theos/sdks/archive/refs/heads/master.tar.gz
           mkdir -p ~/theos/sdks
           tar -xzf /tmp/sdks.tar.gz --strip-components=1 -C ~/theos/sdks
-          ls ~/theos/sdks/
 
       - name: Build package
         run: |
